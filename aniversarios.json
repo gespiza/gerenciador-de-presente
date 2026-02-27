@@ -1,23 +1,26 @@
-[
-    {
-        "Nome": "Muller",
-        "data": "20/03",
-        "Presente": "",
-        "dias_que_faltam": 21,
-        "status": "URGENTE: Preparar presente!"
-    },
-    {
-        "Nome": "Larissinha",
-        "data": "10/08",
-        "Presente": "caneca gaymer",
-        "dias_que_faltam": 164,
-        "status": "Traquilo como um grilo"
-    },
-    {
-        "Nome": "Gean",
-        "data": "03/01",
-        "Presente": "gato de crochet",
-        "dias_que_faltam": 310,
-        "status": "Traquilo como um grilo"
-    }
-]
+{
+    "susan": [
+        {
+            "Nome": "susan",
+            "data": "16/02",
+            "Presente": "caneta"
+        },
+        {
+            "Nome": "sonia",
+            "data": "05/03",
+            "Presente": "vela"
+        },
+        {
+            "Nome": "amora",
+            "data": "19/08",
+            "Presente": "oso de pelicua"
+        }
+    ],
+    "sonia": [
+        {
+            "Nome": "susan",
+            "data": "16/02",
+            "Presente": "caneta"
+        }
+    ]
+}

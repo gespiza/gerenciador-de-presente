@@ -14,76 +14,77 @@ def carregar_dados():
         with open(JSON_PATH, 'r', encoding='utf-8') as f:
             return json.load(f)
     except:
-        return[]
+        return{} #retorna um dicionario vazio
     
-def salvar_dados(lista):
+def salvar_dados(dados_completos):
     with open(JSON_PATH, 'w', encoding='utf-8') as f:
-        json.dump(lista, f, indent=4, ensure_ascii=False)
-
-#Agora a nossa lista oficial comeca lendo o que está no arquivo!
-aniversarios = carregar_dados()
+        json.dump(dados_completos, f, indent=4, ensure_ascii=False)
 
 def calcular_dias_faltantes(data_aniversario):
     hoje = datetime.now() #pega a data e hora de agora
     dia, mes = map(int, data_aniversario.split('/'))
-
     data_este_ano = datetime(hoje.year,mes,dia)
     
-    #se o aniversário já passou este ano...
-    if data_este_ano < hoje:
-        #...olhamos para o ano que vem!
-        data_proximo = datetime(hoje.year+1,mes,dia)
+    if data_este_ano < hoje:  #se o aniversário já passou este ano...
+        data_proximo = datetime(hoje.year+1,mes,dia) #...olhamos para o ano que vem!
     else:
         data_proximo = data_este_ano
+
     diferenca = data_proximo - hoje
     return diferenca.days #retorna apenas o numero de dias
 
-@app.route('/') # Isso diz: "Quando eu acessar a página inicial..."
-def home():
-    for pessoa in aniversarios:
+@app.route('/<usuario>') # Isso diz: "Quando eu acessar a página inicial..."
+def home(usuario):
+    todos_os_dados = carregar_dados()
+
+    lista_do_usuario = todos_os_dados.get(usuario,[])
+
+    for pessoa in lista_do_usuario:
         #chamamos a lógica de cálculo para cada um
         dias = calcular_dias_faltantes(pessoa['data'])
         pessoa['dias_que_faltam']= dias #criamos uma chave nova na hora!
-
-        #Lógica do "presente elaborado"
         if dias <= 30:
             pessoa['status'] = "URGENTE: Preparar presente!"
         else:
             pessoa['status'] = "Traquilo como um grilo"
+    
+    lista_do_usuario.sort(key=lambda x: x['dias_que_faltam'])
+    return render_template('index.html', lista=lista_do_usuario, usuario=usuario)
 
     #Isso ordena a lista baseada na chave 'dias_que_faltam'
-    aniversarios.sort(key=lambda x: x['dias_que_faltam'])
 
-    return render_template('index.html', lista=aniversarios)
-
-@app.route('/adicionar',methods=['POST'])
-def adicionar():
+@app.route('/adicionar/<usuario>',methods=['POST'])
+def adicionar(usuario):
+    todos_os_dados = carregar_dados()
+    
     # O 'request.form' pega o que você escreveu no 'name' lá no HTML
-    nome_digitado = request.form.get('nome')
-    data_digitada = request.form.get('data')
-    presente_digitado = request.form.get('presente')
+    nome_recebido = request.form.get('nome')
+    data_recebida = request.form.get('data')
+    presente_recebido = request.form.get('presente')
 
-    # Criamos um novo dicionário com esses dados
     novo_amigo = {
-        "Nome": nome_digitado,
-        "data": data_digitada,
-        "Presente": presente_digitado
+        "Nome": nome_recebido,
+        "data": data_recebida,
+        "Presente": presente_recebido
     }
-    # Adicionamos na nossa lista oficial
-    aniversarios.append(novo_amigo)
 
-    salvar_dados(aniversarios) #magica acontece aqui
+    if usuario not in todos_os_dados:
+         todos_os_dados[usuario]=[]
+
+    todos_os_dados[usuario].append(novo_amigo)
+    salvar_dados(todos_os_dados)
 
     # Redireciona de volta para a página inicial para vermos a lista atualizada
-    return redirect('/')
-@app.route('/deletar/<nome_da_pessoa>')
-def deletar(nome_da_pessoa):
-    global aniversarios #avisa que vamos mexer na lista principal
+    return redirect(f'/{usuario}')
+@app.route('/deletar/<usuario>/<nome_da_pessoa>')
+def deletar(usuario,nome_da_pessoa):
+    todos_os_dados = carregar_dados()
 
-    #cria uma nova lista sem a pessoa que queremos deletar
-    aniversarios = [p for p in aniversarios if p['Nome'] != nome_da_pessoa]
+    if usuario in todos_os_dados:
+         todos_os_dados[usuario] = [p for p in todos_os_dados[usuario]if p['Nome'] != nome_da_pessoa]
+    salvar_dados(todos_os_dados)
 
-    salvar_dados(aniversarios) #salva a lista limpa no JSON
-    return redirect('/')
-if __name__ == '__main__':
-    app.run(debug=True) # Isso liga o motor do site
+    return redirect(f'/{usuario}')
+
+if __name__ == "__main__":
+     app.run(debug=True) # Isso liga o motor do site
