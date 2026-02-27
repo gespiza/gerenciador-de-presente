@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendário de Nivers</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px;
+    }
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 350px;
+        margin-bottom: 20px;
+        border-left: 5px solid #6c5ce7;
+    }
+    .urgente {
+        border-left: 5px solid #ff7675;
+        background-color: #fff5f5;
+    }
+    h1 { color: #2d3436; }
+    input {
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+        border: 1px solid #dfe6e9;
+    }
+    button{
+        padding: 10px 20px;
+        background-color: #6c5ce7;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover { background-color: #a29bfe; }
+</style>
+</head>
+<body>
+    <h1>Gerenciador de Presentes</h1>
+    
+    <form action="/adicionar" method="POST">
+        <input type="text" name="nome" placeholder="Nome do Amigo" required>
+        <input type="text" name="data" placeholder="DD/MM" required>
+        <input type="text" name="presente" placeholder="Ideia de Presente">
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <hr>
+    
+        <div id="lista-aniversarios">
+            {% for pessoa in lista %}
+                <div class="card {% if pessoa.dias_que_faltam <= 30 %}urgente{% endif %}">
+                    <a href="/deletar/{{ pessoa.Nome }}" style="float: right; color: red; text-decoration: none;">X</a>
+
+                    <strong>{{ pessoa.Nome }}</strong> - {{ pessoa.data }}
+                    <p> Idéia: {{ pessoa.Presente }}</p>
+                    <small>Faltam {{ pessoa.dias_que_faltam }} dias</small>
+                    <br>
+                    <strong>{{ pessoa.status }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+
+</body>
+</html>
