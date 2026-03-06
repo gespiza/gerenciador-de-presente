@@ -62,10 +62,19 @@ def adicionar(usuario):
     data_recebida = request.form.get('data')
     presente_recebido = request.form.get('presente')
 
+    foto1 = request.form.get('foto1')
+    foto2 = request.form.get('foto2')
+    foto3 = request.form.get('foto3')
+    foto4 = request.form.get('foto4')
+
     novo_amigo = {
         "Nome": nome_recebido,
         "data": data_recebida,
-        "Presente": presente_recebido
+        "presente": presente_recebido,
+        "foto1": foto1,
+        "foto2": foto2,
+        "foto3": foto3,
+        "foto4": foto4
     }
 
     if usuario not in todos_os_dados:

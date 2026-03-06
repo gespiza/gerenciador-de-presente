@@ -1,26 +1,13 @@
 {
     "susan": [
         {
-            "Nome": "susan",
-            "data": "16/02",
-            "Presente": "caneta"
-        },
-        {
-            "Nome": "sonia",
-            "data": "05/03",
-            "Presente": "vela"
-        },
-        {
-            "Nome": "amora",
-            "data": "19/08",
-            "Presente": "oso de pelicua"
-        }
-    ],
-    "sonia": [
-        {
-            "Nome": "susan",
-            "data": "16/02",
-            "Presente": "caneta"
+            "Nome": "cauan",
+            "data": "15/03",
+            "presente": "pc",
+            "foto1": "https://http2.mlstatic.com/D_NQ_NP_2X_726761-CBT102405809132_122025-F.webp",
+            "foto2": "",
+            "foto3": "",
+            "foto4": ""
         }
     ]
 }
