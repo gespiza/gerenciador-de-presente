@@ -1,10 +1,14 @@
 import json
 import os
-from flask import Flask, render_template, request, redirect # Aqui chamamos a ferramenta
+from flask import Flask, render_template, request, redirect, url_for # Aqui chamamos a ferramenta
+from werkzeug.utils import secure_filename
 from datetime import datetime
 
 app = Flask(__name__) # Aqui criamos o "aplicativo"
 
+UPLOAD_FOLDER = 'static/uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 #Isso garante que o Python ache o arquivo JSON nao importa onde ele esteja no servidor
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 JSON_PATH = os.path.join(BASE_DIR, 'aniversarios.json')
@@ -62,19 +66,29 @@ def adicionar(usuario):
     data_recebida = request.form.get('data')
     presente_recebido = request.form.get('presente')
 
-    foto1 = request.form.get('foto1')
-    foto2 = request.form.get('foto2')
-    foto3 = request.form.get('foto3')
-    foto4 = request.form.get('foto4')
+    fotos_caminhos = []
+    for i in range(1, 5):
+        arquivo = request.files.get(f'foto{i}')
+
+        if arquivo and arquivo.filename != '':
+            estensao = arquivo.filename.rsplit('.', 1)[1].lower()
+            nome_arquivo = f"{usuario}_{nome_recebido}_{i}.{estensao}"
+            caminho_pasta = os.path.join('static/uploads', nome_arquivo)
+
+            arquivo.save(caminho_pasta)
+
+            fotos_caminhos.append(f"/{caminho_pasta}")
+        else:
+            fotos_caminhos.append("")
 
     novo_amigo = {
         "Nome": nome_recebido,
         "data": data_recebida,
         "presente": presente_recebido,
-        "foto1": foto1,
-        "foto2": foto2,
-        "foto3": foto3,
-        "foto4": foto4
+        "foto1": fotos_caminhos[0],
+        "foto2": fotos_caminhos[1],
+        "foto3": fotos_caminhos[2],
+        "foto4": fotos_caminhos[3]
     }
 
     if usuario not in todos_os_dados:

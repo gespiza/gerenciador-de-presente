@@ -3,254 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Calendário de Nivers</title>
-<style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f4f9;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 50px;
-    }
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        width: 350px;
-        margin-bottom: 20px;
-        border-left: 5px solid #6c5ce7;
-    }
-    .urgente {
-        border-left: 5px solid #ff7675;
-        background-color: #fff5f5;
-    }
-    h1 { color: #2d3436; }
-    input {
-        padding: 10px;
-        margin: 5px;
-        border-radius: 5px;
-        border: 1px solid #dfe6e9;
-    }
-    button{
-        padding: 10px 20px;
-        background-color: #6c5ce7;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    button:hover { background-color: #a29bfe; }
-
-    .card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px auto;
-        width: 90%;
-        max-width: 600px;
-        border: 1 px solid rgba(255, 255, 255, 0.3);
-    }
-    .card-info {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        text-align: left;
-        flex: 1;
-    }
-    .card-galeria {
-        display: grid;
-        grid-template-columns: repeat(2, 60px);
-        grid-template-rows: repeat(2, 60px);
-        gap: 8px;
-        margin-left: 20px;
-    }
-    .foto-galeria {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-        border: 2px solid white;
-    }
-    .foto-galeria:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        z-index: 5;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        padding-top: 50px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(10px);
-    }
-    .modal-conteudo {
-        margin: auto;
-        display: block;
-        max-width: 80%;
-        max-height: 80%;
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        border: 5px solid rgba(255,255,255,0.2);
-    }
-    .fechar {
-        position: absolute;
-        top: 20px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 60px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .fechar:hover {
-        color: #db7093;
-    }
-
-    .perfil-Ketlyn {
-        background: linear-gradient(135deg, #0078d7 0%, #87ceeb 50%, #32cd32 100%);
-        background-attachment: fixed;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    }
-    .perfil-Ketlyn .card {
-        background: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        color: #003366;
-    }
-    .perfil-Ketlyn button {
-        background: linear-gradient( to bottom, #7db9e8, #1e5799 100%);
-        border: 2px solid #ffffff;
-        border-radius: 50px;
-        color: white;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .perfil-Ketlyn button:hover{
-        transform: scale(1.05);
-        background: linear-gradient(to bottom, #1e5799 0%, #7db9e8 100%);
-    }
-    .perfil-Ketlyn {
-        background-image: url(https://i.pinimg.com/736x/57/50/19/575019ef04d05b14dd4f9bf18f4419b9.jpg);
-        background-size: cover;
-    }
-    
-    @import url('ttps://fonts.googleapis.com/css2?family=Alex+Brush&family=Spectral:wght@300;500&display=swap');
-    .perfil-Sonia {
-        background-image: url('https://i.pinimg.com/736x/cf/30/0c/cf300c027783d55d34cc5718233e30ee.jpg');
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
-
-        font-family: 'Spectral', serif;
-        font-weight: 300;
-        color: #2f4f4f;
-    }
-    .perfil-Sonia h1 {
-        font-family: 'Alex brush', cursive;
-        font-size: 3rem;
-        color: #8b4513;
-        text-align: center;
-        margin-top: 20px;
-    }
-    .perfil-Sonia .card {
-        background: rgba(255, 250, 240, 0.7);
-        border: none;
-        border-radius: 5px;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-    }
-    .perfil-Sonia button {
-        background-color: #db7093;
-        border: 1px solid #c71585;
-        border-radius: 0px;
-        color: white;
-        font-family: 'Spectral', serif;
-        letter-spacing: 2px;
-    }
-    .perfil-Sonia button:hover {
-        background-color: #c71585;
-    }
-    .perfil-susan {
-        background-image: url('https://i.pinimg.com/1200x/00/f0/73/00f073822d24fd355801c3697bd7b1cb.jpg');
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
-
-        font-family: "Times New Roman", Times, serif !important;
-        color: #333333;
-    }
-    .perfil-susan h1 {
-        text-align: center;
-        color: #4a4a4a;
-        margin-top: 30px;
-        font-weight: normal;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-    }
-    .perfil-susan .card, .perfil-susan form {
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(8px) !important;
-        -webkit-backdrop-filter: blur(8px);
-
-        border: 1px solid rgba(255, 255, 255, 0.4) !important;
-
-        border-radius: 15px !important;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1) !important;
-
-        padding: 20px !important;
-        box-shadow: 20px !important;
-    }
-    .perfil-susan input {
-        background: rgba(255, 255, 255, 0.5);
-        border: 1px solid #cccccc;
-        font-family: "Times New Roman", Times, serif;
-        border-radius: 5px;
-    }
-    .perfil-susan button {
-        background-color: transparent !important;
-        border: 2px solid #555555 !important;
-        color: #555555 !important;
-        font-family: "Times New Roman", Times, serif !important;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        border-radius: 5px !important;
-        transition: all 0.3s ease;
-    }
-    .perfil-susan button:hover {
-        background-color: #555555;
-        color: white;
-        cursor: pointer;
-    }
-</style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="perfil-{{ usuario }}">
     <h1>Gerenciador de Presentes</h1>
     
-    <form action="/adicionar/{{ usuario }}" method="POST">
+    <form action="/adicionar/{{ usuario }}" method="POST" enctype="multipart/form-data">
         <input type="text" name="nome" placeholder="Nome do Amigo" required>
         <input type="text" name="data" placeholder="DD/MM" required>
         <input type="text" name="presente" placeholder="Ideia de Presente">
           <div class="form-fotos">
-            <input type="text" name="foto1" placeholder="Link da Foto 1 (opicional)">
-            <input type="text" name="foto2" placeholder="Link da Foto 2 (opicional)">
-            <input type="text" name="foto3" placeholder="Link da Foto 3 (opicional)">
-            <input type="text" name="foto4" placeholder="Link da Foto 4 (opicional)">
+            <input type="file" name="foto1" accept="image/*">
+            <input type="file" name="foto2" accept="image/*">
+            <input type="file" name="foto3" accept="image/*">
+            <input type="file" name="foto4" accept="image/*">
         </div>
         <button type="submit">Cadastrar</button>
     </form>
@@ -260,13 +26,12 @@
         <div id="lista-aniversarios">
             {% for pessoa in lista %}
             <div class="card {{ 'urgente' if pessoa.dias_que_faltam <= 30 else ''}}">
-                <a href="/deletar/{{ usuario }}/{{ pessoa.Nome }}" style="float: right; color: red; text-decoration: none;">X</a>
-
-                <strong>{{ pessoa.Nome }}</strong> {{ pessoa.data }}
-                <p> Presente: {{ pessoa.Presente }}</p>
-                <small>Faltam {{ pessoa.dias_que_faltam }} dias</small>
-                <br>
-                <strong>{{ pessoa.status }}</strong>
+                <div class="card-info"> <a href="/deletar/{{ usuario }}/{{ pessoa.Nome }}" style="float: right; color: red; text-decoration: none;">X</a>
+                    <strong>{{ pessoa.Nome }}</strong> {{ pessoa.data }}
+                    <p> presente: {{ pessoa.presente }}</p>
+                    <small>Faltam {{ pessoa.dias_que_faltam }} dias</small>
+                    <br>
+                    <strong>{{ pessoa.status }}</strong>
                 </div>
 
                 <div class="card-galeria">
