@@ -1,0 +1,4 @@
+static/uploads/*
+aniversarios.json
+__pycache__/
+.env
